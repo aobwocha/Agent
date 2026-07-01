@@ -1,0 +1,7 @@
+langgraph
+langgraph-cli[inmem]
+langchain-community
+langchain-google-genai
+python-dotenv
+duckduckgo_search
+ddgs
