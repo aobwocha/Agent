@@ -5,6 +5,7 @@ from .orchestrator.router import route_from_orchestrator, route_from_executor
 from .orchestrator.state import AgentState
 from .planner.planner import planner_node
 from .executor.executor import executor_node
+from .chat.chat import chat_node
 from .tools.tools import tool_node
 from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import HumanMessage
@@ -21,12 +22,14 @@ workflow = StateGraph(AgentState)
 workflow.add_node("orchestrator", orchestrator_node)
 workflow.add_node("planner", planner_node)
 workflow.add_node("executor", executor_node)
+workflow.add_node("chat", chat_node)
 workflow.add_node("tools", tool_node)
 workflow.add_node("increment_step", increment_step_node)
 
 workflow.add_edge(START, "orchestrator")
 workflow.add_conditional_edges("orchestrator", route_from_orchestrator)
 workflow.add_edge("planner", "orchestrator")
+workflow.add_edge("chat", "orchestrator")
 
 workflow.add_conditional_edges("executor", route_from_executor)
 workflow.add_edge("tools", "executor")
